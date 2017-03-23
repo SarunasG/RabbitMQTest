@@ -5,14 +5,20 @@ import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.net.ssl.SSLContext
 
+import scala.util.Try
+
 /**
   * Created by Sarunas G. on 15/03/17.
   */
-class Receiver {
+object Receiver {
 
-  private val QUEUE_NAME = "queue_1"
+  private val QUEUE_NAME = "queue_test_rabbitmq"
 
   def main(args: Array[String]) {
+
+    val configPath = Try(args(0))
+    val conf = new RabbitMQConfig(configPath.getOrElse("./src/main/resources/application.conf"))
+    import conf._
 
     val factory = new ConnectionFactory()
     factory.setUri("amqp://guest:guest@localhost")
