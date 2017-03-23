@@ -28,6 +28,7 @@ final class RabbitMQConfig(configPath : String) {
   val keystorePassword = config.getString("ssl.keystorePassword")
   val hostname = config.getString("hostname")
   val port =config.getString("port")
+  val queueName = config.getString("queuename")
   val userName = config.getString("rabbitmq.username")
   val userPassword = config.getString("rabbitmq.password")
 

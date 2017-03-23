@@ -14,7 +14,6 @@ import scala.util.Try
   */
 object Sender {
 
-  private val QUEUE_NAME = "queue_test_rabbitmq"
 
   def main(args: Array[String]) {
 
@@ -22,8 +21,10 @@ object Sender {
     val conf = new RabbitMQConfig(configPath.getOrElse("./src/main/resources/application.conf"))
     import conf._
 
+    val QUEUE_NAME = queueName
+
     val factory = new ConnectionFactory
-    factory.setUri("amqp://guest:guest@localhost")
+    factory.setUri(s"amqp://$userName:$userPassword@$hostname")
 
     if (sslStatus) {
       val supportedProtocols = SSLContext.getDefault.getSupportedSSLParameters.getProtocols
@@ -34,7 +35,7 @@ object Sender {
     try {
 
       connection = Some(factory.newConnection())
-      println("Connection status: "  + connection.get.isOpen)
+      println("Connection status: " + connection.get.isOpen)
 
 
       if (!connectionTestOnly) {
@@ -52,7 +53,7 @@ object Sender {
       }
 
       connection.get.close()
-      println("Connection status: "  + connection.get.isOpen)
+      println("Connection status: " + connection.get.isOpen)
 
 
     } catch {
